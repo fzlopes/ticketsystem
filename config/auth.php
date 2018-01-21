@@ -41,14 +41,20 @@ return [
             'provider' => 'users',
         ],
 
+        
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+        ],
+
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
         ],
 
-        'api' => [
+        'admin-api' => [
             'driver' => 'token',
-            'provider' => 'users',
+            'provider' => 'admins',
         ],
     ],
 
