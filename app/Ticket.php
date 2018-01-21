@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Contract extends Model
+class Ticket extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,6 @@ class Contract extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'hours', 
+        'user_id', 'status', 'photo', 
     ];
-
 }
