@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Contract;
+use App\Http\Requests\ContractCreateRequest;
+use App\Http\Requests\ContractUpdateRequest;
 
 class ContractController extends Controller
 {
@@ -13,7 +16,10 @@ class ContractController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user()->id;
+        $contracts = Contract::paginate(5);
+
+        return view('contracts.index', compact('contracts'));
     }
 
     /**
@@ -23,7 +29,9 @@ class ContractController extends Controller
      */
     public function create()
     {
-        //
+        
+        $contract = auth()->user()->contract();
+        return view('contracts.create', compact('contract'));
     }
 
     /**
@@ -32,9 +40,15 @@ class ContractController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContractCreateRequest $request)
     {
-        //
+        $user = auth()->user()->id;
+        $contract = auth()->user()->contract->create([$request->all()]);
+        dd($contract)
+        //$response = $contract->create($request->hours);
+        //$response = Contract::create($request->all());
+        return redirect()->route('contracts.index')
+                         ->with('success','Contrato criado com sucesso.');
     }
 
     /**
@@ -45,7 +59,7 @@ class ContractController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -56,7 +70,8 @@ class ContractController extends Controller
      */
     public function edit($id)
     {
-        //
+        $contract = Contract::find($id);
+        return view('contracts.edit',compact('contract'));
     }
 
     /**
@@ -66,9 +81,11 @@ class ContractController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ContractUpdateRequest $request, $id)
     {
-        //
+        Contract::find($id)->update($request->all());
+        return redirect()->route('contracts.index')
+                        ->with('success','Contrato editado com sucesso.');
     }
 
     /**
@@ -79,6 +96,8 @@ class ContractController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Contract::find($id)->delete();
+        return redirect()->route('contracts.index')
+                        ->with('success','Contrato deletado com sucesso.');
     }
 }

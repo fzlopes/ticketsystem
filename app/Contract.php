@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Contract extends Model
 {
@@ -12,7 +13,12 @@ class Contract extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'hours', 
+        'user_id', 'number', 'hours', 
     ];
+
+    public function user()
+    {
+       return $this->belongsTo(User::class);
+    }
 
 }

@@ -116,9 +116,9 @@ return [
         ],
 
         [
-            'text'        => 'Home',
-            'url'         => 'home',
-            'icon'        => 'home',
+            'text'        => 'Contrato',
+            'url'         => 'contracts',
+            'icon'        => 'compress',
         ]
      ],   
     

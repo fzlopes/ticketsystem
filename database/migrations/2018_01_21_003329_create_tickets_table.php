@@ -17,10 +17,11 @@ class CreateTicketsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->boolean('status');
+            $table->text('problem');
             $table->string('photo');
             $table->timestamps();
 
-            $table->foreign('user_id')->refences('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
