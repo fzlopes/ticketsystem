@@ -20,7 +20,7 @@ class CreateContractsTable extends Migration
             $table->integer('hours');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

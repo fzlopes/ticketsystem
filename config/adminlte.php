@@ -119,7 +119,13 @@ return [
             'text'        => 'Contrato',
             'url'         => 'contracts',
             'icon'        => 'compress',
-        ]
+        ],
+
+        [
+            'text'        => 'Ticket',
+            'url'         => 'tickets',
+            'icon'        => 'ticket',
+        ],
      ],   
     
     /*

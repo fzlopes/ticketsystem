@@ -5,7 +5,7 @@
 @section('content')
 
 <div class='col-sm-11'>
-    <h2> Cadastrar de Contrato </h2>
+    <h2> Cadastrar Contrato </h2>
 </div>
     
 <div class='col-sm-1'>
@@ -13,15 +13,7 @@
 </div>        
 
 <div class="col-sm-12">  
-    @if (count($errors) > 0)
-          <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    @include('includes.alerts')
 
     {!! Form::open(array('route' => 'contracts.store','method'=>'POST')) !!}
          @include('contracts.form')

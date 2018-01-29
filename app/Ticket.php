@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Ticket extends Model
 {
@@ -12,6 +13,11 @@ class Ticket extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'status', 'photo', 
+        'user_id', 'status', 'problem', 'photo', 
     ];
+
+    public function user()
+    {
+       return $this->belongsTo(User::class);
+    }
 }

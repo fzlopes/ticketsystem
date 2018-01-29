@@ -13,13 +13,7 @@
        role='button'> Novo </a>
 </div>
     
-    @if ($message = Session::get('success'))
-    <div class="col-sm-12">
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    </div>
-    @endif
+  @include('includes.alerts')
     
  <div class='col-sm-12'>
     <table class="table table-hover">
@@ -38,13 +32,13 @@
         <td>{{ $contract->hours}}</td>
         <td>
             <a class="btn btn-primary" href="{{ route('contracts.edit',$contract->id) }}">Editar</a>
-            {!! Form::open(['method' => 'DELETE','route' => ['contracts.destroy', $contract->id],'style'=>'display:inline']) !!}
+            {!! Form::open(['method' => 'DELETE','route' => ['contracts.destroy', $contract->id],'style'=>'display:inline', 'onsubmit' => "return confirm('Confirma Exclusão?')"]) !!}
             {!! Form::submit('Deletar', ['class' => 'btn btn-danger']) !!}
             {!! Form::close() !!}
         </td>
     </tr>
     @empty
-        <p class="alert alert-danger">Nenhum contrato cadastrado.<p>
+        <p class="alert alert-warning">Nenhum contrato cadastrado.<p>
     @endforelse
     </table>
     {!! $contracts->links() !!}

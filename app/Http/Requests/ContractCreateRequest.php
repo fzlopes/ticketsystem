@@ -24,7 +24,6 @@ class ContractCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'number'  => 'required',
             'hours'   => 'required|numeric',
         ];

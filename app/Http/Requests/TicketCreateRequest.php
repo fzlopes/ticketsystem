@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContractUpdateRequest extends FormRequest
+class TicketCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class ContractUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'number'  => 'required',
-            'hours'   => 'required|numeric',
+            'status'  => 'required',
+            'problem' => 'required',
+            'photo'   => 'required',
         ];
     }
 }

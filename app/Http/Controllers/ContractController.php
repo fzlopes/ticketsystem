@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Contract;
 use App\Http\Requests\ContractCreateRequest;
 use App\Http\Requests\ContractUpdateRequest;
+use App\Contract;
 
 class ContractController extends Controller
 {
@@ -16,7 +16,6 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $user = auth()->user()->id;
         $contracts = Contract::paginate(5);
 
         return view('contracts.index', compact('contracts'));
@@ -29,9 +28,7 @@ class ContractController extends Controller
      */
     public function create()
     {
-        
-        $contract = auth()->user()->contract();
-        return view('contracts.create', compact('contract'));
+        return view('contracts.create');
     }
 
     /**
@@ -42,13 +39,16 @@ class ContractController extends Controller
      */
     public function store(ContractCreateRequest $request)
     {
-        $user = auth()->user()->id;
-        $contract = auth()->user()->contract->create([$request->all()]);
-        dd($contract)
-        //$response = $contract->create($request->hours);
-        //$response = Contract::create($request->all());
+        $contract = new Contract();
+        $contract->user_id = auth()->user()->id;
+        $contract->number  = $request->number;
+        $contract->hours   = $request->hours;
+
+        $contract->save();
+
         return redirect()->route('contracts.index')
                          ->with('success','Contrato criado com sucesso.');
+    
     }
 
     /**
@@ -70,7 +70,7 @@ class ContractController extends Controller
      */
     public function edit($id)
     {
-        $contract = Contract::find($id);
+        $contract = Contract::findOrFail($id);
         return view('contracts.edit',compact('contract'));
     }
 
@@ -83,7 +83,13 @@ class ContractController extends Controller
      */
     public function update(ContractUpdateRequest $request, $id)
     {
-        Contract::find($id)->update($request->all());
+        $contract = Contract::findOrFail($id);
+        $contract->user_id = auth()->user()->id;
+        $contract->number  = $request->number;
+        $contract->hours   = $request->hours;
+        
+        $contract->save();
+        
         return redirect()->route('contracts.index')
                         ->with('success','Contrato editado com sucesso.');
     }
@@ -96,7 +102,10 @@ class ContractController extends Controller
      */
     public function destroy($id)
     {
-        Contract::find($id)->delete();
+        $contract = Contract::findOrFail($id);
+        
+        $contract->delete();
+        
         return redirect()->route('contracts.index')
                         ->with('success','Contrato deletado com sucesso.');
     }

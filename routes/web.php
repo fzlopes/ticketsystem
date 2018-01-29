@@ -17,9 +17,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('contracts', 'ContractController');
+	Route::resource('tickets', 'TicketController');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'AdminController@index')->name('admin');
-Route::resource('contracts', 'ContractController');
-Route::resource('tickets', 'TicketController');
+
 
 

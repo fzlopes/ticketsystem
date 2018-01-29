@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\TicketCreateRequest;
+use App\Http\Requests\TicketUpdateRequest;
+use App\Ticket;
+use Input;
+use File;
+use Redirect;
 
 class TicketController extends Controller
 {
@@ -13,7 +19,9 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::paginate(5);
+
+        return view('tickets.index', compact('tickets'));
     }
 
     /**
@@ -23,7 +31,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        return view('tickets.create');
     }
 
     /**
@@ -32,9 +40,36 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketCreateRequest $request)
     {
-        //
+      if (Input::file('photo'))
+      {
+        $photo = Input::file('photo');
+        $extension = $photo->getClientOriginalExtension();
+        if ($extension != 'jpg' && $extension != 'png')
+        {
+            return redirect()->back()->with('error', 'Erro: Este arquivo não é imagem');
+        }
+      }
+        $ticket = new Ticket();
+
+        $ticket->user_id = auth()->user()->id;
+        $ticket->status  = $request->status;
+        $ticket->problem = $request->problem;
+        $ticket->photo   =  "";
+
+        $ticket->save();
+
+        if (Input::file('photo'))
+        {
+            File::move($photo,public_path().'/photos/ticket-id_'.$ticket->id.'.'.$extension);
+            $ticket->photo = public_path().'/photos/ticket-id_'.$ticket->id.'.'.$extension;
+            
+            $ticket->save();
+        }
+
+        return redirect()->route('tickets.index')
+                         ->with('success','Ticket criado com sucesso.');
     }
 
     /**
@@ -56,7 +91,8 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('tickets.edit',compact('ticket'));
     }
 
     /**
@@ -66,9 +102,18 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketUpdateRequest $request, $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $ticket->user_id = auth()->user()->id;
+        $ticket->status  = $request->status;
+        $ticket->problem  = $request->problem;
+        $ticket->photo   = $request->photo;
+        
+        $ticket->save();
+        
+        return redirect()->route('tickets.index')
+                        ->with('success','Ticket editado com sucesso.');
     }
 
     /**
@@ -79,6 +124,11 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        
+        $ticket->delete();
+        
+        return redirect()->route('tickets.index')
+                        ->with('success','Ticket deletado com sucesso.');
     }
 }
