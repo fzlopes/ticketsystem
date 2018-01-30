@@ -31,7 +31,7 @@ class User extends Authenticatable
 
     public function contract()
     {
-        return $this->hasMany(Contract::class);
+        return $this->hasOne(Contract::class);
     }
 
     public function tickets()

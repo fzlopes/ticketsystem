@@ -27,11 +27,13 @@
         </tr>
     @forelse ($tickets as $ticket)
     <tr>
+       @if ($ticket->status === "Ativo")
         <td>{{ $ticket->id }}</td>
         <td>{{ $ticket->user->name}}</td>
         <td>{{ $ticket->status }}</td>
         <td>{{ $ticket->problem}}</td>
-        <td>{{ $ticket->photo}}</td>
+        <td><img src="{{ url($ticket->photo) }}" height='120' width='170' alt='Foto'/></td>
+       
         <td>
             <a class="btn btn-primary" href="{{ route('tickets.edit',$ticket->id) }}">Editar</a>
             {!! Form::open(['method' => 'DELETE','route' => ['tickets.destroy', $ticket->id],'style'=>'display:inline', 'onsubmit' => "return confirm('Confirma Exclusão?')"]) !!}
@@ -39,6 +41,7 @@
             {!! Form::close() !!}
         </td>
     </tr>
+     @endif
     @empty
         <p class="alert alert-warning">Nenhum ticket cadastrado.<p>
     @endforelse

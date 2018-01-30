@@ -24,7 +24,6 @@ class TicketUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'status'  => 'required',
             'problem' => 'required',
             'photo'   => 'required',
         ];

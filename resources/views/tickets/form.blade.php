@@ -1,7 +1,10 @@
 <div class="col-sm-12">
     <div class="form-group">
         <strong>Status:</strong>
-        {!! Form::checkbox('status', true) !!}
+        {!! Form::label('ativo', 'Ativo', array('class' => 'control-label' )) !!} 
+        {!! Form::radio('status', 'Ativo', true) !!}
+        {!! Form::label('resolvido', 'Resolvido', array('class' => 'control-label' )) !!} 
+        {!! Form::radio('status', 'Resolvido') !!}
     </div>
 
     <div class="form-group">
@@ -11,7 +14,7 @@
     
     <div class="form-group">
         <strong>Foto:</strong>
-        {!! Form::file('photo', ['class' => 'form-control']) !!}
+        {!! Form::file('photo', null, array('class' => 'form-control')) !!}
     </div>
     
     <div class="text-center">

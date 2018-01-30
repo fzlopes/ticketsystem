@@ -11,11 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
+
+Route::get('/', 'HomeController@index');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('contracts', 'ContractController');
