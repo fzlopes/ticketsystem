@@ -15,8 +15,8 @@
 <div class="col-sm-12">  
     @include('includes.alerts')
 
-    {!! Form::model($ticket, ['method' => 'PATCH', 'enctype' => 'multipart/form-data','route' => ['tickets.update', $ticket->id]]) !!} 
-         @include('tickets.form')
+    {!! Form::model($ticket, ['method' => 'PATCH', 'files' => true ,'route' => ['tickets.update', $ticket->id]]) !!} 
+         @include('tickets.form-update')
     {!! Form::close() !!}
 </div>
 @stop

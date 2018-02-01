@@ -16,7 +16,7 @@
     @include('includes.alerts')
 
     {!! Form::open(array('route' => 'contracts.store','method'=>'POST')) !!}
-         @include('contracts.form')
+         @include('contracts.form-create')
     {!! Form::close() !!}
 </div>
 @stop

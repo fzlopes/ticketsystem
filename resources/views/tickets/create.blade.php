@@ -16,7 +16,7 @@
     @include('includes.alerts')
     
     {!! Form::open(array('route' => 'tickets.store','method'=>'POST', 'files' => true)) !!}
-         @include('tickets.form')
+         @include('tickets.form-create')
     {!! Form::close() !!}
 </div>
 @stop

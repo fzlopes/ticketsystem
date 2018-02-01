@@ -16,7 +16,7 @@
     @include('includes.alerts');
 
     {!! Form::model($contract, ['method' => 'PATCH','route' => ['contracts.update', $contract->id]]) !!}
-        @include('contracts.form')
+        @include('contracts.form-update')
     {!! Form::close() !!}
 </div>
 @stop

@@ -9,7 +9,6 @@ use App\Ticket;
 use Input;
 use File;
 use Redirect;
-use Auth;
 
 class TicketController extends Controller
 {
@@ -52,6 +51,7 @@ class TicketController extends Controller
       {
         $photo = Input::file('photo');
         $extension = $photo->getClientOriginalExtension();
+
         if ($extension != 'jpg' && $extension != 'png')
         {
             return redirect()->back()->with('error', 'Erro: Este arquivo não é imagem');
@@ -110,33 +110,15 @@ class TicketController extends Controller
      */
     public function update(TicketUpdateRequest $request, $id)
     {
+
         $ticket = Ticket::findOrFail($id);
-
-        if (Input::file('photo'))
-        {
-        $photo = Input::file('photo');
-        $extension = $photo->getClientOriginalExtension();
-            if ($extension != 'jpg' &&  $extension != 'png')
-            {
-                return redirect()->back()->with('error', 'Erro: Este arquivo não é imagem');
-            }
-        }
+            
+        $ticket->user_id = auth()->user()->id;
+        $ticket->status  = $request->status;
+        $ticket->problem = $request->problem;
         
-         $ticket->user_id = auth()->user()->id;
-         $ticket->status  = $request->status;
-         $ticket->problem = $request->problem;
-         $ticket->photo   = $request->photo;
-
         $ticket->save();
 
-        if (Input::file('photo'))
-        {
-            File::delete(public_path().$ticket->photo);
-            File::move($photo,public_path().'/photos/ticket-id_'.$ticket->id.'.'.$extension);
-            $ticket->photo = '/photos/ticket-id_'.$ticket->id.'.'.$extension;
-            
-            $ticket->save();
-        }
         
         return redirect()->route('tickets.index')
                         ->with('success','Ticket editado com sucesso.');
