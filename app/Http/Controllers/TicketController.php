@@ -19,7 +19,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::paginate(2);
+        $tickets = Ticket::where('user_id', auth()->user()->id)->paginate(2);
 
         return view('tickets.index', compact('tickets'));
     }

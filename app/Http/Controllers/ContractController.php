@@ -16,7 +16,7 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::paginate(5);
+        $contracts = Contract::where('user_id', auth()->user()->id)->paginate(5);
 
         return view('contracts.index', compact('contracts'));
     }
