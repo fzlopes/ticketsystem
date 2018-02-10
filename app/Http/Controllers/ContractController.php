@@ -7,6 +7,7 @@ use App\Http\Requests\ContractCreateRequest;
 use App\Http\Requests\ContractUpdateRequest;
 use App\Contract;
 
+
 class ContractController extends Controller
 {
     /**
@@ -16,7 +17,16 @@ class ContractController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->admin == 1)
+        {
+         
+         $contracts = Contract::paginate(5);
+        
+        } else {
+
         $contracts = Contract::where('user_id', auth()->user()->id)->paginate(5);
+        
+        }
 
         return view('contracts.index', compact('contracts'));
     }
@@ -39,6 +49,11 @@ class ContractController extends Controller
      */
     public function store(ContractCreateRequest $request)
     {
+        if(auth()->user()->admin == 0)
+        {
+            return redirect()->back()->with('error', 'Erro: Contate o dono da empresa efetuar contrato.');
+        }
+
         $contract = new Contract();
         $contract->user_id = auth()->user()->id;
         $contract->number  = $request->number;
@@ -83,6 +98,11 @@ class ContractController extends Controller
      */
     public function update(ContractUpdateRequest $request, $id)
     {
+        if(auth()->user()->admin == 0)
+        {
+            return redirect()->back()->with('error', 'Erro: Contate o dono da empresa efetuar contrato.');
+        }
+        
         $contract = Contract::findOrFail($id);
         $contract->user_id = auth()->user()->id;
         $contract->number  = $request->number;

@@ -24,7 +24,7 @@ class TicketCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'status'  => 'required'
+            'status'  => 'required',
             'problem' => 'required',
             'photo'   => 'required',
         ];
