@@ -49,11 +49,7 @@ class ContractController extends Controller
      */
     public function store(ContractCreateRequest $request)
     {
-        if(auth()->user()->admin == 0)
-        {
-            return redirect()->back()->with('error', 'Erro: Contate o dono da empresa efetuar contrato.');
-        }
-
+       
         $contract = new Contract();
         $contract->user_id = auth()->user()->id;
         $contract->number  = $request->number;
@@ -98,10 +94,6 @@ class ContractController extends Controller
      */
     public function update(ContractUpdateRequest $request, $id)
     {
-        if(auth()->user()->admin == 0)
-        {
-            return redirect()->back()->with('error', 'Erro: Contate o dono da empresa efetuar contrato.');
-        }
         
         $contract = Contract::findOrFail($id);
         $contract->user_id = auth()->user()->id;

@@ -116,6 +116,13 @@ return [
         ],
 
         [
+            'text'        => 'Meu pefil',
+            'url'         => 'profiles',
+            'icon'        => 'user',
+        ],
+       
+
+        [
             'text'        => 'Contrato',
             'url'         => 'contracts',
             'icon'        => 'compress',
